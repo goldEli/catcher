@@ -63,6 +63,7 @@
           height = (endPositionY - startPositionY) + "px";
           positionY = startPositionY + "px";
           positionX = startPositionX + "px";
+          render()
         }
 
         if (endPositionX < startPositionX && endPositionY > startPositionY) {
@@ -70,6 +71,7 @@
           height = (endPositionY - startPositionY) + "px";
           positionY = startPositionY + "px";
           positionX = endPositionX + "px";
+          render()
         }
 
         function render() {
@@ -85,7 +87,7 @@
           catcherBox.appendChild(catcher);
 
         }
-        render()
+        
       }
 
       root.addEventListener('mousedown', function(){
