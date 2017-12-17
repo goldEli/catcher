@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+  <style>
+    body{
+      padding: 0;
+      margin: 0;
+    }
+    #root{
+      width: 600px;
+      height: 600px;
+      background: grey;
+      position: relative;
+    }
+    .item{
+      width: 50px;
+      height: 50px;
+      background: rgb(61, 5, 5);
+      position: absolute;
+    }
+  </style>
+<body>
+  <div id = "root">
+    <div class="item" style="top:200px;left:100px"></div>
+    <div class="item" style="top:250px;left:250px"></div>
+    <div class="item" style="top:400px;left:50px"></div>
+    <div class="item" style="top:300px;left:300px"></div>
+    <div class="item" style="top:200px;left:100px"></div>
+
+  </div>
+  <script>
+    (function(){
+      var root = document.body;
+
+      var startPositionX;
+      var startPositionY;
+
+      var positionX;
+      var positionY;
+
+      var width;
+      var height;
+
+      var catcherBox = document.createElement("div"); 
+      root.appendChild(catcherBox)
+
+      var dealMove = function () {
+
+        catcherBox.innerHTML = ""
+
+        var event = event || window.event
+        var catcher = document.createElement("div"); 
+        var endPositionX = event.clientX;
+        var endPositionY = window.scrollY ? (window.scrollY + event.clientY) : event.clientY;
+        
+        if (endPositionX > startPositionX && endPositionY > startPositionY) {
+          width = (endPositionX - startPositionX) + "px";
+          height = (endPositionY - startPositionY) + "px";
+          positionY = startPositionY + "px";
+          positionX = startPositionX + "px";
+        }
+
+        if (endPositionX < startPositionX && endPositionY > startPositionY) {
+          width = (startPositionX - endPositionX) + "px";
+          height = (endPositionY - startPositionY) + "px";
+          positionY = startPositionY + "px";
+          positionX = endPositionX + "px";
+        }
+
+        function render() {
+
+          catcher.style.width = width;
+          catcher.style.height = height;
+          
+          catcher.style.background = "blue";
+          catcher.style.position = "absolute";
+          catcher.style.top = positionY;
+          catcher.style.left = positionX;
+          catcher.style.opacity = 0.3
+          catcherBox.appendChild(catcher);
+
+        }
+        render()
+      }
+
+      root.addEventListener('mousedown', function(){
+
+        startPositionX = event.clientX;
+        startPositionY = window.scrollY ? (window.scrollY + event.clientY) : event.clientY;
+        root.addEventListener('mousemove',dealMove)  
+      })
+        
+      root.addEventListener('mouseup',function(){
+        catcherBox.innerHTML = ""
+        root.removeEventListener('mousemove',dealMove) 
+      })
+    })()
+  </script>
+</body>
+</html>
